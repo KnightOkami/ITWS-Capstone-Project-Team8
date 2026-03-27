@@ -9,40 +9,54 @@ const PointNetPage = () => {
   const [fileName, setFileName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [totalPointCount, setTotalPointCount] = useState(0);
 
   // Handle file upload and send to backend
-  const processFile = async (file) => {
-    if (!file) return;
-    
-    setIsLoading(true);
-    setFileName(file.name);
+ const processFile = async (file) => {
+  if (!file) return;
 
-    try {
-      const text = await file.text();
-      const pts = text
-        .trim()
-        .split("\n")
-        .map((line) => line.trim().split(/\s+/).map(Number));
-      setPoints(pts);
+  setIsLoading(true);
+  setFileName(file.name);
 
-      const formData = new FormData();
-      formData.append("file", file);
+  try {
+    const text = await file.text();
 
-      const res = await fetch(`${BASE_API_URL}/predict`, {
-        method: "POST",
-        body: formData,
-      });
-      const data = await res.json();
-      setPrediction(data.predicted_label);
-      setConfidence(data.confidence);
-    } catch (err) {
-      console.error("❌ Prediction error:", err);
-      setPrediction("Error");
-      setConfidence(0);
-    } finally {
-      setIsLoading(false);
+    const allPts = text
+      .trim()
+      .split("\n")
+      .map((line) => line.trim().split(/\s+/).map(Number))
+      .filter((row) => row.length >= 3 && row.slice(0, 3).every(Number.isFinite))
+      .map((row) => row.slice(0, 3));
+    setTotalPointCount(allPts.length);
+    const MAX_PREVIEW_POINTS = 5000;
+
+    let previewPts = allPts;
+    if (allPts.length > MAX_PREVIEW_POINTS) {
+      const step = Math.ceil(allPts.length / MAX_PREVIEW_POINTS);
+      previewPts = allPts.filter((_, i) => i % step === 0).slice(0, MAX_PREVIEW_POINTS);
     }
-  };
+
+    setPoints(previewPts);
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch(`${BASE_API_URL}/predict`, {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+    setPrediction(data.predicted_label);
+    setConfidence(data.confidence);
+  } catch (err) {
+    console.error("❌ Prediction error:", err);
+    setPrediction("Error");
+    setConfidence(0);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -92,11 +106,10 @@ const PointNetPage = () => {
                   <span className="w-1 h-6 bg-gradient-to-b from-[var(--blue-primary)] to-[var(--blue-muted)] rounded-full"></span>
                   3D Point Cloud Viewer
                 </h2>
-                {points.length > 0 && (
-                  <div className="px-3 py-1 rounded-lg bg-[var(--blue-primary)]/10 border border-[var(--blue-primary)]/30 text-[var(--blue-primary)] text-sm">
-                    {points.length.toLocaleString()} points
-                  </div>
-                )}
+                {totalPointCount.toLocaleString()} total points
+{points.length !== totalPointCount && (
+  <div>Showing preview of {points.length.toLocaleString()} points</div>
+)}
               </div>
 
               {points.length > 0 ? (

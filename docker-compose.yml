@@ -14,12 +14,19 @@ services:
       - ./backend/data:/app/data  # Persist data
     environment:
       - FLASK_ENV=development
-      - FLASK_DEBUG=1
+      - FLASK_DEBUG=0
       - PYTHONUNBUFFERED=1
     restart: unless-stopped
     networks:
       - pointcloud-network
     command: python server.py
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
 
   # Frontend React (Development Mode with Vite)
   frontend:

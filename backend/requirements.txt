@@ -6,3 +6,5 @@ flask-cors
 laspy
 scikit-learn
 lazrs
+scikit-learn==1.5.2
+torch

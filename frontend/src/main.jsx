@@ -6,6 +6,8 @@ import { RouterProvider } from "react-router/dom";
 import PotreePage from "./pages/PotreePage";
 import PointNetPage from "./pages/PointNetPage";
 import Navbar from "./components/Navbar";
+import SegmentationPage from "./pages/SegmentationPage";
+
 
 const router = createBrowserRouter([
   {
@@ -29,6 +31,7 @@ const router = createBrowserRouter([
                 <div className="mt-8 flex gap-4">
                   <Link to="/PointNetPage" className="px-6 py-3 rounded-lg btn-primary font-semibold">Try Classifier</Link>
                   <Link to="/potree" className="px-6 py-3 rounded-lg btn-ghost font-semibold">Open Viewer</Link>
+                  <Link to="/segment" className="px-6 py-3 rounded-lg btn-ghost font-semibold">Try Segmentation</Link>
                 </div>
               </div>
               <div className="relative h-[340px] md:h-[420px]">
@@ -200,7 +203,16 @@ const router = createBrowserRouter([
         <PointNetPage />
       </>
     ),
-  }
+  },
+  {
+  path: "/segment",
+  element: (
+    <>
+      <Navbar />
+      <SegmentationPage />
+    </>
+  ),
+}
 ]);
 
 createRoot(document.getElementById("root")).render(
