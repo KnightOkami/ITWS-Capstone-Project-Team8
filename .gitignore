@@ -27,4 +27,46 @@ frontend/node_modules/
 frontend/dist/
 
 # data gitignore
+backend/third_party/Pointnet_Pointnet2_pytorch/data
+backend/third_party/Pointnet_Pointnet2_pytorch/log
 backend/data
+
+# Third-party: Pointnet_Pointnet2_pytorch
+backend/third_party/Pointnet_Pointnet2_pytorch/build/
+backend/third_party/Pointnet_Pointnet2_pytorch/develop-eggs/
+backend/third_party/Pointnet_Pointnet2_pytorch/dist/
+backend/third_party/Pointnet_Pointnet2_pytorch/downloads/
+backend/third_party/Pointnet_Pointnet2_pytorch/eggs/
+backend/third_party/Pointnet_Pointnet2_pytorch/.eggs/
+backend/third_party/Pointnet_Pointnet2_pytorch/lib/
+backend/third_party/Pointnet_Pointnet2_pytorch/lib64/
+backend/third_party/Pointnet_Pointnet2_pytorch/parts/
+backend/third_party/Pointnet_Pointnet2_pytorch/sdist/
+backend/third_party/Pointnet_Pointnet2_pytorch/var/
+backend/third_party/Pointnet_Pointnet2_pytorch/wheels/
+backend/third_party/Pointnet_Pointnet2_pytorch/*.egg-info/
+backend/third_party/Pointnet_Pointnet2_pytorch/.installed.cfg
+backend/third_party/Pointnet_Pointnet2_pytorch/*.egg
+backend/third_party/Pointnet_Pointnet2_pytorch/MANIFEST
+
+# Unit test / coverage reports
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
