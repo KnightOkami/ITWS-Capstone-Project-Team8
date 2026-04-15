@@ -28,7 +28,7 @@ frontend/dist/
 
 # data gitignore
 backend/third_party/Pointnet_Pointnet2_pytorch/data
-
+backend/third_party/Pointnet_Pointnet2_pytorch/log/sem_seg/pointnet2_sem_seg/visual
 backend/data
 
 # Third-party: Pointnet_Pointnet2_pytorch
